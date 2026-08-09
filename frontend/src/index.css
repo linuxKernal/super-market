@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+
+.scrollbar-thin-custom {
+    scrollbar-width: thin;
+}
+
+.scrollbar-thin-custom::-webkit-scrollbar {
+    width: 6px;
+}
+
+input[type="number"] {
+    appearance: text;
+    -moz-appearance: textfield;
+    /* Firefox */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    /* Chrome, Safari, Edge */
+    margin: 0;
+}
+
+.resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+}
+
+@theme {
+    --font-poppins: "Poppins", sans-serif;
+    --animate-sheet: sheet 300ms;
+    --color-background: white;
+
+    /* --color-primary: #10b981;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #f3f4f6;
+    --color-secondary-foreground: #111827;
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #ffffff;
+    --color-muted: #f3f4f6;
+    --color-muted-foreground: #6b7280;
+    --color-border: #e5e7eb; */
+
+    @keyframes sheet {
+        0% {
+            transform: translate(100%);
+        }
+
+        100% {
+            transform: translate(0);
+        }
+    }
+}
