@@ -27,7 +27,7 @@ A modern, high-performance, full-stack e-commerce application designed to delive
   <h3>📈 Analytics Dashboard: Revenue & Orders</h3>
   <img src="docs/assets/dashboard1.jpeg" alt="Admin Analytics Revenue Dashboard" width="800" />
 
-  <h3>👥 Analytics Dashboard: Top Customers</h3>
+  <h3>📖 Analytics Dashboard: Top Customers</h3>
   <img src="docs/assets/dashboard2.jpeg" alt="Admin Analytics Top Customers Dashboard" width="800" />
 
   <h3>⚙️ Dashboard: Settings & Configuration</h3>
@@ -42,7 +42,7 @@ A modern, high-performance, full-stack e-commerce application designed to delive
   <h3>🔨 Administrative Inventory Management</h3>
   <img src="docs/assets/super-market-add_products-section.jpeg" alt="Admin Inventory Management" width="800" />
 
-  <h3>👤 User Settings & Preferences</h3>
+  <h3>⚙ User Settings & Preferences</h3>
   <img src="docs/assets/super-market-user-section.jpeg" alt="User Settings Section" width="800" />
 </div>
 
