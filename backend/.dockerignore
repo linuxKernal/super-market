@@ -1,0 +1,39 @@
+# Version control and local configuration
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+
+# Python environments, caches, and build artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Logs and local runtime files
+*.log
+*.pid
+
+# Documentation and media not needed by the backend image
+docs/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

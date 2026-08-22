@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic[email]
+pydantic-settings
+supabase
+PyJWT
+pwdlib[argon2]
+python-slugify
+python-dateutil
+razorpay
+requests
