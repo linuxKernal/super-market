@@ -71,7 +71,7 @@ async def oauth_check(provider: str, code: str, state: str = "signup"):
     secure_flag = "; Secure" if settings.is_production else ""
 
     return RedirectResponse(url=f"{settings.FRONTEND_URL}{settings.FRONTEND_OAUTH_CALLBACK}", headers={
-        "set-cookie": f"session={token}; Max-Age={int(timedelta(hours=1).total_seconds())}; Path=/; HttpOnly; SameSite=Lax{secure_flag}"
+        "set-cookie": f"session={token}; Max-Age={int(timedelta(hours=1).total_seconds())}; Path=/; HttpOnly; SameSite=none{secure_flag}"
     })
 
 
@@ -148,7 +148,7 @@ async def login_user(user_login: UserLogin, response: Response):
             secure=settings.is_production,
             max_age= settings.JWT_TOKEN_EXPIRE_MINUTES * 60,
             path="/",
-            samesite="lax"
+            samesite="none"
         ) 
         
         return {
