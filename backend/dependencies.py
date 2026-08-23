@@ -63,7 +63,7 @@ def query_builder(base_query, search_fields: list[str], params):
         query_builder = base_query
     
         if params["search"] and search_fields:
-            search_term = f"%{params["search"]}%"
+            search_term = f"%{params['search']}%"
             or_conditions = [f"{field}.ilike.{search_term}" for field in search_fields]
             query_builder = query_builder.or_(",".join(or_conditions))
         

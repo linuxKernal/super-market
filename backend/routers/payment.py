@@ -103,7 +103,7 @@ async def verify_payment(payload: Annotated[PaymentVerificationRequest, Form()],
             elif method == 'wallet':
                 providerName = transaction["wallet"]
             elif method == 'card':
-                providerName = f"{transaction["card"]["issuer"]} {transaction["card"]["network"]}"
+                providerName = f"{transaction['card']['issuer']} {transaction['card']['network']}"
             else:
                 providerName = "Unknown"
 
