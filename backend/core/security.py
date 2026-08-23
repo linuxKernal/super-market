@@ -6,6 +6,7 @@ from pwdlib import PasswordHash
 password_hash = PasswordHash.recommended()
 
 def create_jwt_token(data: dict, expires_delta: timedelta = None):
+    print("settings.JWT_SECRET_KEY", settings.JWT_SECRET_KEY)
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta

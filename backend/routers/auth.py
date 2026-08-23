@@ -70,6 +70,8 @@ async def oauth_check(provider: str, code: str, state: str = "signup"):
     token = create_jwt_token({"email": data["email"]})
     secure_flag = "; Secure" if settings.is_production else ""
 
+    print(f"{settings.FRONTEND_URL}{settings.FRONTEND_OAUTH_CALLBACK}",{
+        "set-cookie": f"session={token}; Max-Age={int(timedelta(hours=1).total_seconds())}; Path=/; HttpOnly; SameSite=Lax{secure_flag}"})
     return RedirectResponse(url=f"{settings.FRONTEND_URL}{settings.FRONTEND_OAUTH_CALLBACK}", headers={
         "set-cookie": f"session={token}; Max-Age={int(timedelta(hours=1).total_seconds())}; Path=/; HttpOnly; SameSite=none{secure_flag}"
     })
