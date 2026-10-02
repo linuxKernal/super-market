@@ -10,3 +10,5 @@ python-slugify
 python-dateutil
 razorpay
 requests
+google-cloud-recaptcha-enterprise
+google-auth

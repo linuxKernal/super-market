@@ -1,9 +1,9 @@
 export default function CardskeletonLoading() {
     return (
-        <div>
-            <div className="w-56 border border-neutral-200 animate-pulse rounded-md grid grid-rows-[auto_1fr] relative pointer-events-none">
-                <div className="w-full h-40 relative">
-                    <div className="w-full h-[160px] object-contain rounded-t-md bg-neutral-200"></div>
+        <div className="w-full sm:w-auto">
+            <div className="w-full sm:w-56 flex-1 border border-neutral-200 animate-pulse rounded-md grid grid-rows-[auto_1fr] relative pointer-events-none">
+                <div className="w-full h-40 sm:h-40 relative">
+                    <div className="w-full h-[160px] sm:h-[160px] object-contain rounded-t-md bg-neutral-200"></div>
                 </div>
                 <div className="p-4 text-neutral-800 flex flex-col justify-between">
                     <div className="space-y-1">

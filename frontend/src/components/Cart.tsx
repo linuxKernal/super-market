@@ -35,7 +35,9 @@ export default function Cart({ setOpenCart }: Props) {
     const navigate = useNavigate();
 
     const [addresses, setAddresses] = useState<AddressData[]>([]);
-    const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
+    const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
+        null
+    );
     const [isFetchingAddresses, setIsFetchingAddresses] = useState(true);
 
     useEffect(() => {
@@ -48,8 +50,12 @@ export default function Cart({ setOpenCart }: Props) {
                 if (data.status === "success") {
                     setAddresses(data.data);
                     if (data.data.length > 0) {
-                        const defaultAddr = data.data.find((a: AddressData) => a.is_default_shipping);
-                        setSelectedAddressId(defaultAddr ? defaultAddr.id : data.data[0].id);
+                        const defaultAddr = data.data.find(
+                            (a: AddressData) => a.is_default_shipping
+                        );
+                        setSelectedAddressId(
+                            defaultAddr ? defaultAddr.id : data.data[0].id
+                        );
                     }
                 }
             } catch (error) {
@@ -85,7 +91,9 @@ export default function Cart({ setOpenCart }: Props) {
             return;
         }
 
-        const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
+        const selectedAddress = addresses.find(
+            (a) => a.id === selectedAddressId
+        );
 
         const orderResponse = await fetch(`${API_URL}/payment/create-order`, {
             method: "POST",
@@ -94,14 +102,12 @@ export default function Cart({ setOpenCart }: Props) {
             body: JSON.stringify({
                 coupons: coupons.map((c) => c["code"]),
                 currency: "INR",
-                shipping_address_id: selectedAddressId
+                shipping_address_id: selectedAddressId,
             }),
         });
 
         const orderData = await orderResponse.json();
-        console.log(orderData);
         if (orderData.status == "created") {
-            console.log({ "DEBUG": grandTotal })
             makePayment({
                 amount: grandTotal,
                 orderId: orderData.id,
@@ -150,14 +156,19 @@ export default function Cart({ setOpenCart }: Props) {
                     <div className="py-4 border-t border-gray-200 mt-2">
                         <div className="flex justify-between items-center mb-3">
                             <h3 className="font-semibold text-gray-800 flex items-center gap-2">
-                                <MapPin className="w-4 h-4 text-emerald-600" /> Shipping Address
+                                <MapPin className="w-4 h-4 text-emerald-600" />{" "}
+                                Shipping Address
                             </h3>
                         </div>
                         {isFetchingAddresses ? (
-                            <div className="text-sm text-gray-500 animate-pulse bg-gray-100 h-10 border border-gray-200 rounded-lg flex items-center px-3">Loading addresses...</div>
+                            <div className="text-sm text-gray-500 animate-pulse bg-gray-100 h-10 border border-gray-200 rounded-lg flex items-center px-3">
+                                Loading addresses...
+                            </div>
                         ) : addresses.length === 0 ? (
                             <div className="bg-orange-50 border border-orange-200 p-3 rounded-lg flex flex-col gap-3 shadow-sm">
-                                <p className="text-sm text-orange-800 font-medium tracking-tight">No delivery address found.</p>
+                                <p className="text-sm text-orange-800 font-medium tracking-tight">
+                                    No delivery address found.
+                                </p>
                                 <Button
                                     onClick={() => {
                                         setOpenCart(false);
@@ -166,24 +177,37 @@ export default function Cart({ setOpenCart }: Props) {
                                     variant="outline"
                                     className="bg-white hover:bg-orange-100 hover:text-orange-800 border-orange-300 text-orange-700 w-full transition-all"
                                 >
-                                    <Plus className="w-4 h-4 mr-2" /> Add Address
+                                    <Plus className="w-4 h-4 mr-2" /> Add
+                                    Address
                                 </Button>
                             </div>
                         ) : (
                             <div className="relative">
                                 <select
                                     value={selectedAddressId || ""}
-                                    onChange={(e) => setSelectedAddressId(Number(e.target.value))}
+                                    onChange={(e) =>
+                                        setSelectedAddressId(
+                                            Number(e.target.value)
+                                        )
+                                    }
                                     className="w-full text-sm font-medium text-gray-800 border-gray-300 rounded-lg p-2.5 pr-8 bg-white shadow-sm focus:ring-emerald-500 focus:border-emerald-500 outline-none border hover:border-gray-400 transition-colors appearance-none cursor-pointer"
                                 >
                                     {addresses.map((addr) => (
                                         <option key={addr.id} value={addr.id}>
-                                            {addr.name ? `${addr.name} - ` : ""}{addr.address_1}, {addr.city} - {addr.pincode}
+                                            {addr.name ? `${addr.name} - ` : ""}
+                                            {addr.address_1}, {addr.city} -{" "}
+                                            {addr.pincode}
                                         </option>
                                     ))}
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                                    <svg
+                                        className="fill-current h-4 w-4"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                    </svg>
                                 </div>
                             </div>
                         )}
@@ -194,13 +218,20 @@ export default function Cart({ setOpenCart }: Props) {
                 <button
                     onClick={handlePayment}
                     disabled={!selectedAddressId && items.length > 0}
-                    className={`w-full flex justify-between items-center px-5 py-3 rounded-xl transition-all shadow-md active:scale-[0.98] ${selectedAddressId || items.length === 0
-                        ? "bg-green-600 hover:bg-green-700 text-white hover:shadow-lg"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        }`}
+                    className={`w-full flex justify-between items-center px-5 py-3 rounded-xl transition-all shadow-md active:scale-[0.98] ${
+                        selectedAddressId || items.length === 0
+                            ? "bg-green-600 hover:bg-green-700 text-white hover:shadow-lg"
+                            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
                 >
                     <div className="flex flex-col items-start leading-tight">
-                        <span className={`text-xs uppercase tracking-wider font-semibold ${selectedAddressId || items.length === 0 ? "text-green-100" : "text-gray-400"}`}>
+                        <span
+                            className={`text-xs uppercase tracking-wider font-semibold ${
+                                selectedAddressId || items.length === 0
+                                    ? "text-green-100"
+                                    : "text-gray-400"
+                            }`}
+                        >
                             Total Amount
                         </span>
                         <div className="font-bold text-xl flex items-center mt-0.5">
@@ -210,7 +241,13 @@ export default function Cart({ setOpenCart }: Props) {
                     </div>
                     <div className="flex items-center font-semibold text-lg group">
                         Proceed
-                        <ChevronRight className={`w-5 h-5 ml-1 transition-transform ${selectedAddressId || items.length === 0 ? "group-hover:translate-x-1" : ""}`} />
+                        <ChevronRight
+                            className={`w-5 h-5 ml-1 transition-transform ${
+                                selectedAddressId || items.length === 0
+                                    ? "group-hover:translate-x-1"
+                                    : ""
+                            }`}
+                        />
                     </div>
                 </button>
             </div>

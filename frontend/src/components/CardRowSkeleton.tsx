@@ -7,7 +7,7 @@ export default function CardRowSkeleton() {
                 <h2 className="bg-neutral-200 w-56 h-6 rounded-lg"></h2>
                 <span className="bg-neutral-200 w-16 h-4 rounded-lg"></span>
             </div>
-            <div className="relative  flex justify-center gap-x-4">
+            <div className="relative grid grid-cols-2 sm:flex sm:flex-wrap gap-4">
                 {Array.from({ length: 6 }, (_, index) => (
                     <CardskeletonLoading key={index} />
                 ))}

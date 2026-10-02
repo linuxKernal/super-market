@@ -1,7 +1,6 @@
 from typing import List, Union
 from pydantic import AnyHttpUrl, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-import os
 
 class Settings(BaseSettings):
     ENVIRONMENT: str = "dev"
@@ -21,12 +20,17 @@ class Settings(BaseSettings):
     RAZORPAY_KEY_SECRET: str
     RAZORPAY_WEBHOOK_SECRET: str
     CORS_ORIGINS: Union[str, List[AnyHttpUrl]] = []
+    GOOGLE_MAPS_API_KEY: str = ""
     
     SMTP_SERVER: str = ""
     SMTP_PORT: int = 465 
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
     EMAILS_FROM_EMAIL: str = ""
+    GCP_PROJECT_ID: str = ""
+    MIN_RECAPTCHA_SCORE: float = 0.6
+    RECAPTCHA_SITE_KEY: str = ""
+    GOOGLE_APPLICATION_CREDENTIALS: str = ""
 
     @property
     def is_production(self) -> bool:

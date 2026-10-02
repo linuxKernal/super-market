@@ -4,6 +4,13 @@
 .env
 .env.*
 !.env.example
+*-*.json
+*serviceAccount*.json
+*credential*.json
+gmp-*.json
+*.key
+*.pem
+*.p12
 
 # Python environments, caches, and build artifacts
 __pycache__/

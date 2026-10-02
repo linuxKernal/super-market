@@ -29,3 +29,12 @@ MANIFEST
 
 # Logs
 *.log
+
+# Google Cloud Service Account Keys & Secrets (Never commit keys to Git!)
+*-*.json
+*serviceAccount*.json
+*credential*.json
+gmp-*.json
+*.key
+*.pem
+*.p12

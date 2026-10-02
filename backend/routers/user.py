@@ -1,11 +1,13 @@
 from fastapi import APIRouter, Depends, UploadFile, File, status, HTTPException
+import requests
+from pydantic import BaseModel
 from ..core.db import supabase as sb
-from ..schemas.user import User, UserUpdate, UserAddressCreate, UserAddressUpdate
-from ..dependencies import get_user, check_role
+from ..core.config import settings
+from ..dependencies import get_user, check_role, require_recaptcha
+from ..core.security import verify_password, get_password_hash
 from ..core.logs import logger
 from ..services.uploads import upload_image
-from pydantic import BaseModel
-from ..core.security import verify_password, get_password_hash
+from ..schemas.user import User, UserUpdate, UserAddressCreate, UserAddressUpdate
 
 class PasswordUpdate(BaseModel):
     currentPassword: str
@@ -147,3 +149,61 @@ def update_user_address(address_id: int, address_update: UserAddressUpdate, user
         "status": "success",
         "data": response.data[0]
     }
+
+@router.get("/reverse-geocode")
+def reverse_geocode(lat: float, lng: float, user: User = Depends(get_user()), claims = Depends(require_recaptcha("reverse_geocode"))):
+    try:
+        api_key = settings.GOOGLE_MAPS_API_KEY
+        if not api_key:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Internal Server Error Please Contact Admin."
+            )
+
+        url = f"https://geocode.googleapis.com/v4/geocode/location/{lat},{lng}?key={api_key}"
+        res = requests.get(url, timeout=10)
+        res_data = res.json()
+
+        if res.status_code != 200 or not res_data.get("results"):
+            return {
+                "status": "fail",
+                "message": res_data.get("error_message", "No address found for these coordinates."),
+                "data": None
+            }
+
+        results = res_data.get("results", [])
+        
+        target_result = None
+        
+        for res in results:
+            if "postalAddress" in res:
+                target_result = res
+                break
+                
+        if not target_result and results:
+            target_result = results[0]
+            
+        if not target_result:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No address found for this latitude and longitude"
+            )
+
+        postal_addr = target_result.get("postalAddress", {})
+        address_lines = postal_addr.get("addressLines", [])
+        
+        return {
+            "status": "success", 
+            "data": {
+                "address1": address_lines[0] if len(address_lines) > 0 else "",
+                "address2": address_lines[1] if len(address_lines) > 1 else "",
+                "city": postal_addr.get("locality", ""),
+                "state": postal_addr.get("administrativeArea", ""),
+                "country": postal_addr.get("regionCode", ""),
+                "zipcode": postal_addr.get("postalCode", ""),
+                "formatted_address": target_result.get("formattedAddress", "")
+            }
+        }
+    except Exception as e:
+        logger.error(f"Reverse geocode error: {e}", exc_info=True)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to fetch address details.")

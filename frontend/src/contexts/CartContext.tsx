@@ -88,9 +88,9 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
                 items: state.items.map((item) =>
                     item.id === id
                         ? {
-                            ...item,
-                            quantity: quantity,
-                        }
+                              ...item,
+                              quantity: quantity,
+                          }
                         : item
                 ),
                 coupons: [],
@@ -249,7 +249,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         if (data.status === "success")
             dispatch({ type: "UPDATE_ITEM", payload: { id, quantity } });
         else alert("Error found when updating the product");
-        console.log(id, quantity);
     }
 
     async function applyCouponCode(couponCode: string) {
@@ -279,7 +278,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     const totalPrice = state.items.reduce(
         (sum, i) =>
-            i.product.isStock ? sum + (i.product.price - (i.product.discount ?? 0)) * i.quantity : sum,
+            i.product.isStock
+                ? sum +
+                  (i.product.price - (i.product.discount ?? 0)) * i.quantity
+                : sum,
         0
     );
 
@@ -309,7 +311,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         state.items.length > 0
             ? +(totalPrice + deliveryCharges - totalCouponDiscount).toFixed(2)
             : 0;
-    console.log({ grandTotal, totalPrice, deliveryCharges, totalCouponDiscount })
+    console.log({
+        grandTotal,
+        totalPrice,
+        deliveryCharges,
+        totalCouponDiscount,
+    });
 
     return (
         <CartContext.Provider

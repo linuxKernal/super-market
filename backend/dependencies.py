@@ -1,11 +1,12 @@
 from typing import Annotated, Optional
-from fastapi import Query, Cookie, Depends, HTTPException
+from fastapi import Request, Query, Cookie, Depends, Header, HTTPException
 import postgrest
 import jwt
 from .core.security import extract_jwt_token
 from .core.db import supabase as sb
 from .schemas.user import User
 from .services.user import get_user_by_email
+from .services.recaptcha_service import verify_recaptcha_token
 
 
 def get_user(strict_auth = True):
@@ -98,3 +99,21 @@ def query_builder(base_query, search_fields: list[str], params):
             raise HTTPException(detail="Max Page limit exceed", status_code=400)
         raise e
     
+def require_recaptcha(action: str):
+    """
+    Returns a dependency that extracts client metadata and runs verification.
+    """
+    async def dependency(request: Request, x_Recaptcha_appcheck: str = Header(..., alias="X-Recaptcha-Token")):
+
+        client_ip = request.client.host if request.client else None
+        user_agent = request.headers.get("user-agent")
+
+        score = verify_recaptcha_token(
+            token=x_Recaptcha_appcheck,
+            expected_action=action,
+            user_ip=client_ip,
+            user_agent=user_agent
+        )
+        return score
+
+    return dependency

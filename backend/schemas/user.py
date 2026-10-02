@@ -35,7 +35,9 @@ class UserAddressBase(BaseModel):
     city: str
     state: str
     country_code: str
-
+    lat: str | None = None
+    long: str | None = None
+    formatted_address: str | None = None
 class UserAddressCreate(UserAddressBase):
     pass
 
@@ -50,3 +52,6 @@ class UserAddressUpdate(BaseModel):
     city: str | None = None
     state: str | None = None
     country_code: str | None = None
+    lat: str | None = None
+    long: str | None = None
+    formatted_address: str | None = None

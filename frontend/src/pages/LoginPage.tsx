@@ -90,7 +90,6 @@ export default function LoginForm() {
 
         const resData = await res.json();
 
-        console.log("resData", resData);
         if (resData.status === "success") {
             try {
                 const userRes = await fetch(`${API_URL}/users/me`, {
@@ -218,12 +217,18 @@ export default function LoginForm() {
                                                 )}
                                             </Button>
                                             <div className="flex flex-col gap-2.5 items-center mt-2">
-                                                <Link to="/forgot-password" className="text-sm text-emerald-600 font-medium hover:underline">
+                                                <Link
+                                                    to="/forgot-password"
+                                                    className="text-sm text-emerald-600 font-medium hover:underline"
+                                                >
                                                     Forgot your password?
                                                 </Link>
                                                 <FieldDescription className="text-center">
                                                     Don&apos;t have an account?{" "}
-                                                    <Link to="/register" className="ml-1 text-emerald-600 font-medium hover:underline">
+                                                    <Link
+                                                        to="/register"
+                                                        className="ml-1 text-emerald-600 font-medium hover:underline"
+                                                    >
                                                         Signup
                                                     </Link>
                                                 </FieldDescription>

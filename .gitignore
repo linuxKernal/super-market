@@ -1,0 +1,36 @@
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+
+# Google Cloud Service Account Keys & Credentials
+*-*.json
+*serviceAccount*.json
+*credential*.json
+gmp-*.json
+
+# Dependencies & Build Outputs
+node_modules/
+dist/
+dist-ssr/
+build/
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# IDE & OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,4 +1,4 @@
-import { API_URL, VITE_RAZORPAY_ID } from "@/config";
+import { API_URL, RAZORPAY_ID } from "@/config";
 
 interface PaymentOptions {
     amount: number;
@@ -16,7 +16,7 @@ export function makePayment({
     phone,
 }: PaymentOptions) {
     const options = {
-        key: VITE_RAZORPAY_ID,
+        key: RAZORPAY_ID,
         amount: amount * 100,
         currency: "INR",
         name: "Super Mart",

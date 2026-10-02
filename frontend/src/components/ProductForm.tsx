@@ -29,7 +29,11 @@ import { units } from "@/constants";
 import type { SubCategory } from "@/pages/ProductsPage";
 import { Input } from "./ui/input";
 import ToggleSwitch from "./ToggleSwitch";
-import { changePropertyCase, getChangedFields, uploadProductImage } from "@/lib/utils";
+import {
+    changePropertyCase,
+    getChangedFields,
+    uploadProductImage,
+} from "@/lib/utils";
 import type { Product } from "./Products";
 import { toast } from "react-toastify";
 import { createResource, updateResource } from "@/services/api";
@@ -42,13 +46,13 @@ type BaseProps = {
 
 type Props =
     | ({
-        type: "create";
-        currentData?: undefined;
-    } & BaseProps)
+          type: "create";
+          currentData?: undefined;
+      } & BaseProps)
     | ({
-        type: "edit";
-        currentData: Product;
-    } & BaseProps);
+          type: "edit";
+          currentData: Product;
+      } & BaseProps);
 
 export type NewProduct = Omit<Product, "id">;
 
@@ -164,18 +168,18 @@ export default function ProductForm({
         resolver: zodResolver(type === "create" ? createSchema : editSchema),
         ...(type === "edit"
             ? {
-                defaultValues: {
-                    name: currentData.name,
-                    price: currentData.price,
-                    weight: currentData.weight,
-                    categoryId: currentData.categoryId,
-                    brandName: currentData.brandName,
-                    discount: currentData.discount,
-                    stocks: currentData.stocks,
-                    unit: currentData.unit,
-                    active: currentData.active,
-                },
-            }
+                  defaultValues: {
+                      name: currentData.name,
+                      price: currentData.price,
+                      weight: currentData.weight,
+                      categoryId: currentData.categoryId,
+                      brandName: currentData.brandName,
+                      discount: currentData.discount,
+                      stocks: currentData.stocks,
+                      unit: currentData.unit,
+                      active: currentData.active,
+                  },
+              }
             : {}),
     });
 
@@ -187,15 +191,11 @@ export default function ProductForm({
 
     useEffect(
         function () {
-            console.log(imageFile);
-
             if (imageFile?.[0] instanceof File)
                 setPreview(URL.createObjectURL(imageFile[0]));
         },
         [imageFile]
     );
-
-    console.log("render");
 
     async function onSubmit(data: CombinedProductData) {
         setFormSubmitting(true);
@@ -206,10 +206,8 @@ export default function ProductForm({
                     ...data,
                     ...(data.image
                         ? {
-                            image: await uploadProductImage(
-                                data.image[0],
-                            ),
-                        }
+                              image: await uploadProductImage(data.image[0]),
+                          }
                         : { image: currentData.image }),
                 }
             );
@@ -253,16 +251,18 @@ export default function ProductForm({
     return (
         <div className="bg-white p-8 w-[700px] rounded-sm overflow-y-auto scrollbar-thin-custom">
             <h1
-                className={`text-2xl font-medium ${(errors.categoryId || errors.name) && "pb-4"
-                    }`}
+                className={`text-2xl font-medium ${
+                    (errors.categoryId || errors.name) && "pb-4"
+                }`}
             >
                 {type === "create" ? "Add" : "Update"} Product
             </h1>
             <form className="grid w-full" onSubmit={handleSubmit(onSubmit)}>
                 <FieldGroup>
                     <div
-                        className={`grid grid-cols-[1fr_1fr_auto] gap-x-4 ${errors.categoryId || errors.name ? "" : "items-end"
-                            }`}
+                        className={`grid grid-cols-[1fr_1fr_auto] gap-x-4 ${
+                            errors.categoryId || errors.name ? "" : "items-end"
+                        }`}
                     >
                         <Field>
                             <FieldLabel htmlFor="product_name">
@@ -331,10 +331,11 @@ export default function ProductForm({
                                 <img
                                     src={preview}
                                     onLoad={() => setImageLoaded(true)}
-                                    className={`transition-opacity duration-500 ${imageLoaded
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                        }`}
+                                    className={`transition-opacity duration-500 ${
+                                        imageLoaded
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                    }`}
                                     alt=""
                                 />
                             ) : (
@@ -441,10 +442,11 @@ export default function ProductForm({
                     </div>
 
                     <div
-                        className={`grid grid-cols-3 ${errors.stocks || errors.discount
-                            ? "items-center"
-                            : "items-end"
-                            } gap-x-4`}
+                        className={`grid grid-cols-3 ${
+                            errors.stocks || errors.discount
+                                ? "items-center"
+                                : "items-end"
+                        } gap-x-4`}
                     >
                         <Field>
                             <FieldLabel htmlFor="stock">Stock</FieldLabel>
